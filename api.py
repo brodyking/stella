@@ -20,19 +20,40 @@ sp = spotipy.Spotify(
     )
 )
 
+def parse(url):
+    if ("playlist/" in url):
+        url = url.split("playlist/")[1]
+    elif ("album/" in url):
+        url = url.split("album/")[1]
+    elif ("track/" in url):
+        url = url.split("track/")[1]
+    elif ("playlist/" in url):
+        url = url.split("playlist/")[1]
+
+    if ("?" in url):
+        url = url.split("?")[0]
+
+    return url
+         
 
 def get_playlist(url):
-    playlist_id = url.split("playlist/")[1].split("?")[0]
-    return sp.playlist(playlist_id)
+    url = parse(url);
+    return sp.playlist(url)
+
+def get_album(url):
+    url = parse(url);
+    return sp.album(url)
 
 def get_playlist_items(url):
-    playlist_id = url.split("playlist/")[1].split("?")[0]
-    return sp.playlist_items(playlist_id)
+    url = parse(url);
+    return sp.playlist_items(url)
 
 def get_track(url):
-    playlist_id = url.split("track/")[1].split("?")[0]
-    return sp.track(playlist_id)   
+    url = parse(url);
+    return sp.track(url)   
 
 def get_artist(url):
-    artist_id= url.split("artist/")[1].split("?")[0]
-    return sp.artist(artist_id)
+    url = parse(url);
+    return sp.artist(url)
+
+

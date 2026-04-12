@@ -6,41 +6,47 @@ from mutagen.id3 import ID3, APIC
 
 CONFIG = {
     "artist_seperator": ", ",
-    "generic_tags": "offical audio topic"}
+    "generic_tags": "offical audio topic"
+}
 
 
-def attach_metadata(filename,metadata):
-    # Attach basic metadata
-    audio = EasyID3(filename)
-    audio['title'] = metadata.get("title")
-    audio['album'] = metadata.get("album")
-    audio['artist'] = metadata.get("artist")
-    audio.save()
+def attach_metadata(filename, metadata):
+    def apply_basic_metadata():
+        # Attach basic metadata
+        audio = EasyID3(filename)
+        audio["title"] = metadata.get("title")
+        audio["album"] = metadata.get("album")
+        audio["artist"] = metadata.get("artist")
+        audio.save()
+    def apply_album_art():
+        # Attach album art
+        response = requests.get(metadata.get("album_art"))
+        img_data = response.content
 
-    # Attach album art
-    response = requests.get(metadata.get("album_art"))
-    img_data = response.content
-    try:
-        audio = ID3(filename)
-    except Exception:
-        # Create a new tag if one doesn't exist
-        audio = ID3()
-        audio.save(filename)
-        audio = ID3(filename)
-    audio.add(
-        APIC(
-            encoding=3,        # 3 is for UTF-8
-            mime='image/jpeg', # Change to image/png if applicable
-            type=3,            # 3 is for the front cover
-            desc=u'Cover',
-            data=img_data
-        ))
-    audio.save(v2_version=3)
+        try:
+            audio = ID3(filename)
+        except Exception:
+            # Create a new tag if one doesn't exist
+            audio = ID3()
+            audio.save(filename)
+            audio = ID3(filename)
+        audio.add(
+            APIC(
+                encoding=3,  # 3 is for UTF-8
+                mime="image/jpeg",  # Change to image/png if applicable
+                type=3,  # 3 is for the front cover
+                desc="Cover",
+                data=img_data,
+            )
+        )
+        audio.save(v2_version=3)
+    apply_basic_metadata();
+    apply_album_art();
 
 def download_track(url):
     # Raw api data from spotiy
     track_api = api.get_track(url)
-    
+
     # Gets artist, if multiple combines them
     artist = ""
     artist_id = ""
@@ -67,22 +73,24 @@ def download_track(url):
         "arist_id": artist_id,
         "album_art": track_api["album"]["images"][0]["url"],
         "release_date": track_api["album"]["release_date"],
-        "album": album_name
+        "album": album_name,
     }
 
     search_string = f"ytsearch1:{metadata.get('title')} - {metadata.get('artist')} {CONFIG.get('generic_tags')}"
 
     filename = f"{metadata.get('title')} - {metadata.get('artist')}"
-    
+
     ydl_opts = {
-        'format': 'bestaudio/best',  # Download best quality audio/video
-        'postprocessors': [{ # Force mp3 output
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-        'outtmpl': f"{filename}.%(ext)s",
-        'noplaylist': True,           # Ensure only one video is downloaded
+        "format": "bestaudio/best",  # Download best quality audio/video
+        "postprocessors": [
+            {  # Force mp3 output
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192",
+            }
+        ],
+        "outtmpl": f"{filename}.%(ext)s",
+        "noplaylist": True,  # Ensure only one video is downloaded
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -93,7 +101,7 @@ def download_track(url):
         except Exception as e:
             print(f"An error occurred: {e}")
 
-    attach_metadata(f"{filename}.mp3",metadata)
+    attach_metadata(f"{filename}.mp3", metadata)
 
 
 download_track(

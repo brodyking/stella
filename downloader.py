@@ -1,21 +1,46 @@
 import api
 import yt_dlp
+import requests
 from mutagen.easyid3 import EasyID3
+from mutagen.id3 import ID3, APIC
 
 CONFIG = {
     "artist_seperator": ", ",
     "generic_tags": "offical audio topic"}
 
+
 def attach_metadata(filename,metadata):
+    # Attach basic metadata
     audio = EasyID3(filename)
     audio['title'] = metadata.get("title")
+    audio['album'] = metadata.get("album")
     audio['artist'] = metadata.get("artist")
     audio.save()
+
+    # Attach album art
+    response = requests.get(metadata.get("album_art"))
+    img_data = response.content
+    try:
+        audio = ID3(filename)
+    except Exception:
+        # Create a new tag if one doesn't exist
+        audio = ID3()
+        audio.save(filename)
+        audio = ID3(filename)
+    audio.add(
+        APIC(
+            encoding=3,        # 3 is for UTF-8
+            mime='image/jpeg', # Change to image/png if applicable
+            type=3,            # 3 is for the front cover
+            desc=u'Cover',
+            data=img_data
+        ))
+    audio.save(v2_version=3)
 
 def download_track(url):
     # Raw api data from spotiy
     track_api = api.get_track(url)
-
+    
     # Gets artist, if multiple combines them
     artist = ""
     artist_id = ""
@@ -40,9 +65,9 @@ def download_track(url):
         "title": track_api["name"],
         "artist": artist,
         "arist_id": artist_id,
-        "album_art": track_api["album"]["images"][0],
+        "album_art": track_api["album"]["images"][0]["url"],
         "release_date": track_api["album"]["release_date"],
-        "album_name": album_name
+        "album": album_name
     }
 
     search_string = f"ytsearch1:{metadata.get('title')} - {metadata.get('artist')} {CONFIG.get('generic_tags')}"
@@ -70,6 +95,7 @@ def download_track(url):
 
     attach_metadata(f"{filename}.mp3",metadata)
 
+
 download_track(
-    "https://open.spotify.com/track/1vxu8vMNshg5J8z3oA7QJZ?si=a4b3da3a11764b20"
+    "https://open.spotify.com/track/6MDxjEmwVBrZM1UH9FpYP4?si=afe70faa8f4e44f7"
 )

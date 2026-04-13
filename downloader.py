@@ -17,6 +17,7 @@ class Download:
             audio["title"] = metadata.get("title")
             audio["album"] = metadata.get("album")
             audio["artist"] = metadata.get("artist")
+            audio["date"] = metadata.get("release_date")
             audio.save()
         def apply_album_art():
             # Attach album art
@@ -137,7 +138,7 @@ class Download:
             "artist": artist,
             "arist_id": artist_id,
             "album_art": track_api["album"]["images"][0]["url"],
-            "release_date": track_api["album"]["release_date"],
+            "release_date": track_api["album"]["release_date"][0:4],
             "album": album_name,
         }
 

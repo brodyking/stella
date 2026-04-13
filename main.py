@@ -12,11 +12,15 @@ def main():
 
     Downloader = Download()
 
-    if args.manual:
-        Downloader.download_track_manual(args.spotify_url,args.manual)
+    if ("track/" in args.spotify_url):
+        if args.manual:
+            Downloader.download_track_manual(args.spotify_url,args.manual)
+        else:
+            Downloader.download_track_auto(args.spotify_url)
+    elif ("playlist/" in args.spotify_url):
+            Downloader.download_playlist(args.spotify_url)
     else:
-        Downloader.download_track_auto(args.spotify_url)
-
+        raise ValueError("You must paste the full spotify link. Supported links are for tracks and playlists.")
 
 if __name__ == "__main__":
     sys.exit(main())

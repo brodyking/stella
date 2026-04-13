@@ -37,23 +37,23 @@ def parse(url):
          
 
 def get_playlist(url):
-    url = parse(url);
+    url = parse(url)
     return sp.playlist(url)
 
 def get_album(url):
-    url = parse(url);
+    url = parse(url)
     return sp.album(url)
 
 def get_playlist_items(url):
-    url = parse(url);
+    url = parse(url)
     return sp.playlist_items(url)
 
 def get_track(url):
-    url = parse(url);
+    url = parse(url)
     return sp.track(url)   
 
 def get_artist(url):
-    url = parse(url);
+    url = parse(url)
     return sp.artist(url)
 
 

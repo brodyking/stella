@@ -17,8 +17,10 @@ seems to have fallen out of development.
   - [Requirements](#requirements)
   - [Install](#install)
     - [Step 1: Download](#step-1-download)
-    - [Step 2: Spotify Auth](#step-2-spotify-auth)
+    - [Step 2: Register an app](#step-2-register-an-app)
+    - [Step 3: Spotify Auth](#step-3-spotify-auth)
   - [Usage](#usage)
+    - [Manual Download Option](#manual-download-option)
 
 <!--toc:end-->
 
@@ -64,3 +66,22 @@ REDIRECT_URI="http://127.0.0.1:8080"
 ```
 
 ## Usage
+
+Open the directory where you want to download the mp3's to, and run the script
+with the spotify URL.
+
+```
+python ~/stella/main.py https://open.spotify.com/track/5DnT9a5IM3eMjKgXTWVJvi
+```
+
+This is assuming you cloned the repo while in your home folder.
+
+### Manual Download Option
+
+If you include `-m` or `--manual` followed by a youtube link, it will merge the
+Spotify metadata with the Youtube audio. **This only works when downloading a
+track.**
+
+```
+python ~/stella/main.py https://open.spotify.com/track/5DnT9a5IM3eMjKgXTWVJvi?si=5bb3015e563d4434 -m https://www.youtube.com/watch?v=iyf0ZIh3SVo
+```

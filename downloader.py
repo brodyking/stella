@@ -8,43 +8,42 @@ CONFIG = {
     "artist_seperator": ", ",
 }
 
-
-def attach_metadata(filename, metadata):
-    def apply_basic_metadata():
-        # Attach basic metadata
-        audio = EasyID3(filename)
-        audio["title"] = metadata.get("title")
-        audio["album"] = metadata.get("album")
-        audio["artist"] = metadata.get("artist")
-        audio.save()
-    def apply_album_art():
-        # Attach album art
-        response = requests.get(metadata.get("album_art"))
-        img_data = response.content
-
-        try:
-            audio = ID3(filename)
-        except Exception:
-            # Create a new tag if one doesn't exist
-            audio = ID3()
-            audio.save(filename)
-            audio = ID3(filename)
-        audio.add(
-            APIC(
-                encoding=3,  # 3 is for UTF-8
-                mime="image/jpeg",  # Change to image/png if applicable
-                type=3,  # 3 is for the front cover
-                desc="Cover",
-                data=img_data,
-            )
-        )
-        audio.save(v2_version=3)
-    apply_basic_metadata();
-    apply_album_art();
-
 class Download:
 
-    def download_track_manual(spotify_url,youtube_url):
+    def attach_metadata(self,filename, metadata):
+        def apply_basic_metadata():
+            # Attach basic metadata
+            audio = EasyID3(filename)
+            audio["title"] = metadata.get("title")
+            audio["album"] = metadata.get("album")
+            audio["artist"] = metadata.get("artist")
+            audio.save()
+        def apply_album_art():
+            # Attach album art
+            response = requests.get(metadata.get("album_art"))
+            img_data = response.content
+
+            try:
+                audio = ID3(filename)
+            except Exception:
+                # Create a new tag if one doesn't exist
+                audio = ID3()
+                audio.save(filename)
+                audio = ID3(filename)
+            audio.add(
+                APIC(
+                    encoding=3,  # 3 is for UTF-8
+                    mime="image/jpeg",  # Change to image/png if applicable
+                    type=3,  # 3 is for the front cover
+                    desc="Cover",
+                    data=img_data,
+                )
+            )
+            audio.save(v2_version=3)
+        apply_basic_metadata();
+        apply_album_art();
+
+    def download_track_manual(self,spotify_url,youtube_url):
         # Raw api data from spotiy
         track_api = api.get_track(spotify_url)
 
@@ -105,10 +104,11 @@ class Download:
                 ydl.extract_info(youtube_url, download=True)
                 print(f"Successfully downloaded: {metadata.get('title')}")
            
-                attach_metadata(f"{filename}.mp3", metadata)
+                self.attach_metadata(f"{filename}.mp3", metadata)
             except Exception as e:
                 print(f"An error occurred: {e}")
-    def download_track_auto(url):
+
+    def download_track_auto(self,url):
         # Raw api data from spotiy
         track_api = api.get_track(url)
 
@@ -171,10 +171,6 @@ class Download:
                 ydl.extract_info(search_string, download=True)
                 print(f"Successfully downloaded: {metadata.get('title')}")
            
-                attach_metadata(f"{filename}.mp3", metadata)
+                self.attach_metadata(f"{filename}.mp3", metadata)
             except Exception as e:
                 print(f"An error occurred: {e}")
-
-
-
-Download.download_track_auto("https://open.spotify.com/track/3xFxG34X2fjYleLUzHN8ga?si=4b11e19624e844dd")

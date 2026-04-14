@@ -73,6 +73,8 @@ class Download:
                 # extract_info performs the search and download (download=True by default)
                 ydl.extract_info(youtube_url, download=True)
                 print(f"Successfully downloaded: {metadata.get('title')}")
+
+                # Attach metadata if downloaded
                 self.attach_metadata(f"{filename}.mp3", metadata)
             except Exception as e:
                 print(f"An error occurred: {e}")
@@ -109,10 +111,13 @@ class Download:
             "album": track_api["album"]["name"]
         }
 
-        filename = f"{metadata.get('title')} - {metadata.get('artist')}"
+        # The filename
+        filename = f"{metadata.get('track_number')} {metadata.get('title')} - {metadata.get('artist')}"
 
+        # If no URL provided, yt-dlp uses a search term instead.
         if (youtube_url is None):
             youtube_url = f"ytsearch1:{metadata.get('title')} - {metadata.get('artist')}"
+
         self.download_file(youtube_url,filename,metadata)
 
 

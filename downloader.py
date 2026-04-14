@@ -46,6 +46,37 @@ class Download:
         apply_basic_metadata()
         apply_album_art()
 
+    def download_file(self,youtube_url,filename,metadata):
+
+        ydl_opts = {
+            "format": "bestaudio/best",  # Download best quality audio/video
+            "postprocessors": [
+                {  # Force mp3 output
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "192",
+                }
+            ],
+            "match_filter": yt_dlp.utils.match_filter_func("!is_live & !is_upcoming"),
+            "outtmpl": f"{filename}.%(ext)s",
+            "default_search": "ytmsearch",
+            "extractor_args": {
+                "youtube": {
+                    "search_source": ["ytm"]
+                }
+            },
+            "noplaylist": True,  # Ensure only one video is downloaded
+        }
+    
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            try:
+                # extract_info performs the search and download (download=True by default)
+                ydl.extract_info(youtube_url, download=True)
+                print(f"Successfully downloaded: {metadata.get('title')}")
+                self.attach_metadata(f"{filename}.mp3", metadata)
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
     def download_track(self,spotify_url,youtube_url=None,track_api=None):
         # Raw api data from spotiy
         if (track_api is None):
@@ -80,48 +111,10 @@ class Download:
 
         filename = f"{metadata.get('title')} - {metadata.get('artist')}"
 
-        ydl_opts = {
-            "format": "bestaudio/best",  # Download best quality audio/video
-            "postprocessors": [
-                {  # Force mp3 output
-                    "key": "FFmpegExtractAudio",
-                    "preferredcodec": "mp3",
-                    "preferredquality": "192",
-                }
-            ],
-            "match_filter": yt_dlp.utils.match_filter_func("!is_live & !is_upcoming"),
-            "outtmpl": f"{filename}.%(ext)s",
-            "default_search": "ytmsearch",
-            "extractor_args": {
-                "youtube": {
-                    "search_source": ["ytm"]
-                }
-            },
-            "noplaylist": True,  # Ensure only one video is downloaded
-        }
-
         if (youtube_url is None):
-            # If no youtube URL is provided, yt-dlp searches for it and downloads first result.
-            search_string = f"ytsearch1:{metadata.get('title')} - {metadata.get('artist')}"
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                try:
-                    # extract_info performs the search and download (download=True by default)
-                    ydl.extract_info(search_string, download=True)
-                    print(f"Successfully downloaded: {metadata.get('title')}")
-           
-                    self.attach_metadata(f"{filename}.mp3", metadata)
-                except Exception as e:
-                    print(f"An error occurred: {e}")
-        else:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                try:
-                    # extract_info performs the search and download (download=True by default)
-                    ydl.extract_info(youtube_url, download=True)
-                    print(f"Successfully downloaded: {metadata.get('title')}")
-   
-                    self.attach_metadata(f"{filename}.mp3", metadata)
-                except Exception as e:
-                    print(f"An error occurred: {e}")
+            youtube_url = f"ytsearch1:{metadata.get('title')} - {metadata.get('artist')}"
+        self.download_file(youtube_url,filename,metadata)
+
 
     def download_playlist(self,url):
 

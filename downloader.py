@@ -63,7 +63,7 @@ class Download:
             i += 1
         del i
 
-        album_api = api.track_api["album"]
+        album_api = track_api["album"]
 
         album_name = album_api["name"]
 

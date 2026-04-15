@@ -5,6 +5,7 @@ from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3, APIC
 
 CONFIG = {
+    "version": "1.0.0",
     "artist_seperator": ", ",
     "logs_enabled": True,
     "logs_logo": 'Stella',

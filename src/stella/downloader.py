@@ -106,7 +106,7 @@ class Download:
         self.print("OK",f"Gathering metadata for {spotify_url}")
 
         # Raw api data from spotiy
-        track = api.get_track(spotify_url)
+        track = stella.api.get_track(spotify_url)
 
         # Gets artist, if multiple combines them
         artist = ""
@@ -149,7 +149,7 @@ class Download:
 
         self.print("OK",f"Gathering metadata for {spotify_url}")
 
-        playlist = api.get_playlist_items(spotify_url)
+        playlist = stella.api.get_playlist_items(spotify_url)
 
         tracks = []
         for track in playlist["items"]:
@@ -162,7 +162,7 @@ class Download:
 
         self.print("OK",f"Gathering metadata for {spotify_url}")
 
-        album = api.get_album(spotify_url)
+        album = stella.api.get_album(spotify_url)
 
         for track in album["tracks"]["items"]:         
 

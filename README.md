@@ -1,4 +1,4 @@
-# Stella 🐕
+# Stella 🏴‍☠️
 
 Stella is a python script that converts a spotify link to an mp3 file. Using
 [yt-dlp](https://github.com/yt-dlp/yt-dlp) and
@@ -12,7 +12,7 @@ seems to have fallen out of development.
 
 <!--toc:start-->
 
-- [Stella 🐕](#stella-🐕)
+- [Stella 🏴‍☠️](#stella-🏴‍️)
   - [Table of contents](#table-of-contents)
   - [Requirements](#requirements)
   - [Install](#install)

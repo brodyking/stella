@@ -26,16 +26,16 @@ seems to have fallen out of development.
 
 ## Requirements
 
-Make sure to have the following packages installed, alongside their
-dependencies.
+The dependencies for stella are usually installed by default, but they are
+listed here aswell:
 
-- yt-dlp
 - requests
+- yt-dlp
 - mutagen
 - dotenv
 - spotipy
 
-You will also need a spotify premium account to use this app. This is due to
+You will also need a Spotify Premium account to use this app. This is due to
 Spotify's new API restrictions.
 
 ## Install
@@ -48,33 +48,34 @@ First clone this repo (or download and unzip):
 git clone https://github.com/brodyking/stella.git
 ```
 
-### Step 2: Register an app
+### Step 2: Spotify Auth
 
 Spotify requires you to have a developer account/app for stella to utilize
-Spotify's API.
+Spotify's API. Goto the
+[Spotify Developer Dashboard](https://developer.spotify.com/dashboard) and
+register a new app.
 
-### Step 3: Spotify Auth
+Then, head back into the root project. Paste the credentials into the
+`.env.example` file, and rename it to `.env`.
 
-Create a `.env` file in the folder where the repo is downloaded. Then, fill it
-out with the information from your app's dashboard. It should look like this but
-with the information filled in:
+### Step 3: Installation
+
+Install the application with pip:
 
 ```
-CLIENT_ID=
-CLIENT_SECRET=
-REDIRECT_URI="http://127.0.0.1:8080"
+pip install -e .
 ```
 
 ## Usage
+
+On the first use of the app, it will open a browser window for authentication.
 
 Open the directory where you want to download the mp3's to, and run the script
 with the spotify URL.
 
 ```
-python ~/stella/main.py https://open.spotify.com/track/5DnT9a5IM3eMjKgXTWVJvi
+stella https://open.spotify.com/track/5DnT9a5IM3eMjKgXTWVJvi
 ```
-
-This is assuming you cloned the repo while in your home folder.
 
 ### Manual Download Option
 
@@ -83,5 +84,5 @@ Spotify metadata with the Youtube audio. **This only works when downloading a
 track.**
 
 ```
-python ~/stella/main.py https://open.spotify.com/track/5DnT9a5IM3eMjKgXTWVJvi?si=5bb3015e563d4434 -m https://www.youtube.com/watch?v=iyf0ZIh3SVo
+stella https://open.spotify.com/track/5DnT9a5IM3eMjKgXTWVJvi?si=5bb3015e563d4434 -m https://www.youtube.com/watch?v=iyf0ZIh3SVo
 ```

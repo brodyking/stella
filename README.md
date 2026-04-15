@@ -55,12 +55,13 @@ Spotify's API. Goto the
 [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) and
 register a new app.
 
-Then, head back into the root project. Paste the credentials into the
-`.env.example` file, and rename it to `.env`.
+Then, head back into the root directory of the project. Paste the credentials
+into the `.env.example` file, and rename it to `.env`.
 
 ### Step 3: Installation
 
-Install the application with pip:
+To install the application with pip, run this command while in the root
+directory of the repository:
 
 ```
 pip install -e .

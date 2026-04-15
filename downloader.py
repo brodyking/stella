@@ -6,9 +6,26 @@ from mutagen.id3 import ID3, APIC
 
 CONFIG = {
     "artist_seperator": ", ",
+    "logs_enabled": True,
+    "logs_logo": 'Stella',
+    "ytdlp_show_console": False
 }
 
 class Download:
+
+    def print(self,type,content):
+        if CONFIG.get("logs_enabled"):
+
+            RED = '\033[31m'
+            GREEN = '\033[32m'
+            RESET = '\033[0m'
+            
+            output = f"[{CONFIG.get('logs_logo')}] [{type}] {content}"
+            if (type == "OK"):
+                output = f"{GREEN}{output}{RESET}"
+            if (type == "ERROR"):
+                output = f"{RED}{output}{RESET}"
+            print(output)
 
     def attach_metadata(self,filename, metadata):
         def apply_basic_metadata():
@@ -48,6 +65,8 @@ class Download:
 
     def download_file(self,youtube_url,filename,metadata):
 
+        self.print("OK",f"Starting download for {metadata.get('title')}")
+
         ydl_opts = {
             "format": "bestaudio/best",  # Download best quality audio/video
             "postprocessors": [
@@ -65,6 +84,8 @@ class Download:
                     "search_source": ["ytm"]
                 }
             },
+            "quiet": True,
+            "no_warnings": True,
             "noplaylist": True,  # Ensure only one video is downloaded
         }
     
@@ -72,14 +93,16 @@ class Download:
             try:
                 # extract_info performs the search and download (download=True by default)
                 ydl.extract_info(youtube_url, download=True)
-                print(f"Successfully downloaded: {metadata.get('title')}")
+                self.print("OK",f"Finished downloading {metadata.get('title')}")
 
                 # Attach metadata if downloaded
                 self.attach_metadata(f"{filename}.mp3", metadata)
             except Exception as e:
-                print(f"An error occurred: {e}")
+                self.print("ERROR",f"Download could not be completed for {metadata.get('title')}")
 
     def download_track(self,spotify_url,youtube_url=None):
+
+        self.print("OK",f"Gathering metadata for {spotify_url}")
 
         # Raw api data from spotiy
         track = api.get_track(spotify_url)
@@ -121,9 +144,11 @@ class Download:
         self.download_file(youtube_url,filename,metadata)
 
 
-    def download_playlist(self,url):
+    def download_playlist(self,spotify_url):
 
-        playlist = api.get_playlist_items(url)
+        self.print("OK",f"Gathering metadata for {spotify_url}")
+
+        playlist = api.get_playlist_items(spotify_url)
 
         tracks = []
         for track in playlist["items"]:
@@ -132,9 +157,11 @@ class Download:
         for track in tracks:
             self.download_track(track["id"])
 
-    def download_album(self,url):
+    def download_album(self,spotify_url):
 
-        album = api.get_album(url)
+        self.print("OK",f"Gathering metadata for {spotify_url}")
+
+        album = api.get_album(spotify_url)
 
         for track in album["tracks"]["items"]:         
 

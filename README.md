@@ -26,8 +26,8 @@ seems to have fallen out of development.
 
 ## Requirements
 
-The dependencies for stella are usually installed by default, but they are
-listed here aswell:
+The dependencies for stella are usually already installed by other packages, but
+they are listed here aswell:
 
 - requests
 - yt-dlp

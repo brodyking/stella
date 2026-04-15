@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 import spotipy
-import json
 from spotipy.oauth2 import SpotifyOAuth
 from mutagen.easyid3 import EasyID3
 

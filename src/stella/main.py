@@ -1,6 +1,6 @@
 import argparse
 import sys
-from downloader import Download
+from stella.downloader import Download
 
 
 def main():

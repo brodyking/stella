@@ -1,4 +1,4 @@
-import api
+import stella.api
 import yt_dlp
 import requests
 from mutagen.easyid3 import EasyID3

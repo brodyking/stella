@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+# This makes 'run-app' the command you type in the terminal
+stella = "stella.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/stella/"]
+
+[project]
+name = "stella"
+version = "1.0.0"
+description = "A Spotify Downloader"
+dependencies = [
+    "requests",
+    "dotenv",
+    "spotipy",
+    "mutagen",
+    "yt_dlp"
+  ]

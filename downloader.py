@@ -79,36 +79,36 @@ class Download:
             except Exception as e:
                 print(f"An error occurred: {e}")
 
-    def download_track(self,spotify_url,youtube_url=None,track_api=None):
+    def download_track(self,spotify_url,youtube_url=None):
+
         # Raw api data from spotiy
-        if (track_api is None):
-            track_api = api.get_track(spotify_url)
+        track = api.get_track(spotify_url)
 
         # Gets artist, if multiple combines them
         artist = ""
         artist_id = ""
         i = 0
-        for artist_api in track_api["album"]["artists"]:
+        for artist_data in track["album"]["artists"]:
             if i > 0:
                 # Adds seperator if more than 1 artist
                 artist += CONFIG.get("artist_seperator")
             else:
                 # Uses the first artist as the artist ID
-                artist_id = artist_api["id"]
-            artist += artist_api["name"]
+                artist_id = artist_data["id"]
+            artist += artist_data["name"]
             i += 1
         del i
 
         # Metadata dict
         metadata = {
-            "title": track_api["name"],
+            "title": track["name"],
             "artist": artist,
             "arist_id": artist_id,
-            "album_art": track_api["album"]["images"][0]["url"],
-            "release_date": track_api["album"]["release_date"][0:4],
-            "track_number": track_api["track_number"],
-            "album_artist": track_api["album"]["artists"][0]["name"],
-            "album": track_api["album"]["name"]
+            "album_art": track["album"]["images"][0]["url"],
+            "release_date": track["album"]["release_date"][0:4],
+            "track_number": track["track_number"],
+            "album_artist": track["album"]["artists"][0]["name"],
+            "album": track["album"]["name"]
         }
 
         # The filename
@@ -123,11 +123,51 @@ class Download:
 
     def download_playlist(self,url):
 
-        playlist_api = api.get_playlist_items(url)
+        playlist = api.get_playlist_items(url)
 
         tracks = []
-        for track in playlist_api["items"]:
+        for track in playlist["items"]:
             tracks.append(track["item"])
 
         for track in tracks:
             self.download_track(track["id"])
+
+    def download_album(self,url):
+
+        album = api.get_album(url)
+
+        for track in album["tracks"]["items"]:         
+
+            # Gets artist, if multiple combines them
+            artist = ""
+            artist_id = ""
+            i = 0
+            for artist_data in track["artists"]:
+                if i > 0:
+                    # Adds seperator if more than 1 artist
+                    artist += CONFIG.get("artist_seperator")
+                else:
+                    # Uses the first artist as the artist ID
+                    artist_id = artist_data["id"]
+                artist += artist_data["name"]
+                i += 1
+            del i
+
+            # Metadata dict
+            metadata = {
+                "title": track["name"],
+                "artist": artist,
+                "arist_id": artist_id,
+                "album_art": album["images"][0]["url"],
+                "release_date": album["release_date"][0:4],
+                "track_number": track["track_number"],
+                "album_artist": album["artists"][0]["name"],
+                "album": album["name"]
+            }
+
+            # The filename
+            filename = f"{metadata.get('track_number')} {metadata.get('title')} - {metadata.get('artist')}"
+
+            youtube_url = f"ytsearch1:{metadata.get('title')} - {metadata.get('artist')}"
+
+            self.download_file(youtube_url,filename,metadata)

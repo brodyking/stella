@@ -26,14 +26,18 @@ seems to have fallen out of development.
 
 ## Requirements
 
-The dependencies for stella are usually already installed by other packages, but
-they are listed here aswell:
+The python dependencies for stella are usually already installed by other
+packages, but they are listed here aswell:
 
 - requests
 - yt-dlp
 - mutagen
 - dotenv
 - spotipy
+
+You will also need [FFmpeg](https://ffmpeg.org/), which can be installed from
+[Winget](https://github.com/microsoft/winget-cli) or
+[Homebrew](https://brew.sh/) on Windows and macOS respectively.
 
 You will also need a Spotify Premium account to use this app. This is due to
 Spotify's new API restrictions.

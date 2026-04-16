@@ -48,7 +48,7 @@ First clone this repo (or download and unzip):
 git clone https://github.com/brodyking/stella.git
 ```
 
-### Step 2: Installation
+### Step 2: Build and Installation
 
 To install the application with pip, run this command while in the root
 directory of the repository:
@@ -76,7 +76,9 @@ created, you can create it manually. It should look like this by default:
 }
 ```
 
-Fill it in with your API keys here. Then stella should work without issue.
+Fill it in with your API keys here. On the first run after, it will ask you to
+paste a URL into your browser. Paste it, then copy the URL you were redirected
+to in the terminal. Then stella should work without issue.
 
 ## Usage
 

@@ -17,8 +17,8 @@ seems to have fallen out of development.
   - [Requirements](#requirements)
   - [Install](#install)
     - [Step 1: Download](#step-1-download)
-    - [Step 2: Spotify Auth](#step-2-spotify-auth)
-    - [Step 3: Installation](#step-3-installation)
+    - [Step 2: Installation](#step-2-installation)
+    - [Step 3: Spotify Auth](#step-3-spotify-auth)
   - [Usage](#usage)
     - [Manual Download Option](#manual-download-option)
 

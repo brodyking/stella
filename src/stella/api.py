@@ -11,6 +11,7 @@ class Api:
                 client_secret=client_secret,
                 redirect_uri=redirect_uri,
                 scope="user-library-read",
+                open_browser=False
             )
         )
 

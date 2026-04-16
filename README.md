@@ -54,7 +54,7 @@ To install the application with pip, run this command while in the root
 directory of the repository:
 
 ```
-pip install -e .
+pip install .
 ```
 
 ### Step 3: Spotify Auth

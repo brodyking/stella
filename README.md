@@ -55,7 +55,7 @@ git clone https://github.com/brodyking/stella.git
 ### Step 2: Build and Installation
 
 To install the application with pip, run this command while in the root
-directory of the repository:
+directory of the repository (folder with `pyproject.toml`):
 
 ```
 pip install .

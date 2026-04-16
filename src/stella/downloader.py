@@ -1,4 +1,4 @@
-import stella.api
+from stella.api import Api
 import yt_dlp
 import requests
 from mutagen.easyid3 import EasyID3
@@ -13,6 +13,9 @@ CONFIG = {
 }
 
 class Download:
+
+    def __init__(self,client_id,client_secret,redirect_uri):
+        self.api = Api(client_id,client_secret,redirect_uri)
 
     def print(self,type,content):
         if CONFIG.get("logs_enabled"):
@@ -106,7 +109,7 @@ class Download:
         self.print("OK",f"Gathering metadata for {spotify_url}")
 
         # Raw api data from spotiy
-        track = stella.api.get_track(spotify_url)
+        track = self.api.get_track(spotify_url)
 
         # Gets artist, if multiple combines them
         artist = ""
@@ -149,7 +152,7 @@ class Download:
 
         self.print("OK",f"Gathering metadata for {spotify_url}")
 
-        playlist = stella.api.get_playlist_items(spotify_url)
+        playlist = self.api.get_playlist_items(spotify_url)
 
         tracks = []
         for track in playlist["items"]:
@@ -162,7 +165,7 @@ class Download:
 
         self.print("OK",f"Gathering metadata for {spotify_url}")
 
-        album = stella.api.get_album(spotify_url)
+        album = self.api.get_album(spotify_url)
 
         for track in album["tracks"]["items"]:         
 

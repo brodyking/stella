@@ -1,7 +1,26 @@
 import argparse
 import sys
+import json
+from pathlib import Path
 from stella.downloader import Download
 
+def load_config():
+    # Config path
+    config_path = Path.home() / ".config" / "stella" / "config.json"
+    # Creates directory if it dosen't exist
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+    # Create file with defaults if it dosent exist
+    if not config_path.exists():
+        default_config = {
+            "CLIENT_ID": "",
+            "CLIENT_SECRET": "",
+            "REDIRECT_URI": "http://127.0.0.1:8080",
+        }
+        config = default_config or {}
+        config_path.write_text(json.dumps(config, indent=2))
+        return config
+    with config_path.open() as f:
+        return json.load(f)
 
 def main():
     parser = argparse.ArgumentParser(prog="Stella",description="A Spotify Downloader")
@@ -10,7 +29,13 @@ def main():
 
     args = parser.parse_args()
 
-    Downloader = Download()
+    config = load_config();
+
+    if (config["CLIENT_ID"] is None or config["CLIENT_SECRET"] is None or config["REDIRECT_URI"] is None or config["CLIENT_ID"] == ""):
+        Download.print(None,"ERROR","You must specify your CLIENT_ID, CLIENT_SECRET, and REDIRECT_URI in the config. (~/.config/stella/config.json)")
+        exit()
+    else:
+        Downloader = Download(config["CLIENT_ID"],config["CLIENT_SECRET"],config["REDIRECT_URI"])
 
     if ("track/" in args.spotify_url):
         if args.manual:

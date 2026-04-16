@@ -48,17 +48,7 @@ First clone this repo (or download and unzip):
 git clone https://github.com/brodyking/stella.git
 ```
 
-### Step 2: Spotify Auth
-
-Spotify requires you to have a developer account/app for stella to utilize
-Spotify's API. Goto the
-[Spotify Developer Dashboard](https://developer.spotify.com/dashboard) and
-register a new app.
-
-Then, head back into the root directory of the project. Paste the credentials
-into the `.env.example` file, and rename it to `.env`.
-
-### Step 3: Installation
+### Step 2: Installation
 
 To install the application with pip, run this command while in the root
 directory of the repository:
@@ -66,6 +56,27 @@ directory of the repository:
 ```
 pip install -e .
 ```
+
+### Step 3: Spotify Auth
+
+Spotify requires you to have a developer account/app for stella to utilize
+Spotify's API. Goto the
+[Spotify Developer Dashboard](https://developer.spotify.com/dashboard) and
+register a new app.
+
+When you first run `stella` in the terminal, it should create the configuration
+file. It can be found at `~/.config/stella/config.json`. If it was not already
+created, you can create it manually. It should look like this by default:
+
+```json
+{
+  "CLIENT_ID": "",
+  "CLIENT_SECRET": "",
+  "REDIRECT_URI": "http://127.0.0.1:8080"
+}
+```
+
+Fill it in with your API keys here. Then stella should work without issue.
 
 ## Usage
 

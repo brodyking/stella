@@ -17,7 +17,7 @@ seems to have fallen out of development.
   - [Requirements](#requirements)
   - [Install](#install)
     - [Step 1: Download](#step-1-download)
-    - [Step 2: Installation](#step-2-installation)
+    - [Step 2: Build and Installation](#step-2-build-and-installation)
     - [Step 3: Spotify Auth](#step-3-spotify-auth)
   - [Usage](#usage)
     - [Manual Download Option](#manual-download-option)
@@ -25,6 +25,10 @@ seems to have fallen out of development.
 <!--toc:end-->
 
 ## Requirements
+
+> [!IMPORTANT]
+> You will also need a Spotify Premium account to use this app. This is due to
+> Spotify's new API restrictions.
 
 The python dependencies for stella are usually already installed by other
 packages, but they are listed here aswell:
@@ -38,9 +42,6 @@ packages, but they are listed here aswell:
 You will also need [FFmpeg](https://ffmpeg.org/), which can be installed from
 [Winget](https://github.com/microsoft/winget-cli) or
 [Homebrew](https://brew.sh/) on Windows and macOS respectively.
-
-You will also need a Spotify Premium account to use this app. This is due to
-Spotify's new API restrictions.
 
 ## Install
 

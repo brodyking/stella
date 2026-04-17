@@ -31,10 +31,10 @@ def main():
         Download.print(None,"ERROR","You must specify your CLIENT_ID, CLIENT_SECRET, and REDIRECT_URI in the config. (~/.config/stella/config.json)")
         exit()
 
-    parser = argparse.ArgumentParser(prog="Stella",description="A Spotify Downloader")
-    parser.add_argument('spotify_url')           # positional argument
+    parser = argparse.ArgumentParser(prog="Stella",add_help=False,description="A Spotify Downloader",epilog="Created and maintained by Brody King. You can find this project at https://github.com/brodyking/stella")
+    parser.add_argument('spotify_url', help="The full spotify URL.")           # positional argument
     parser.add_argument("-m", "--manual", type=str, help="Manually input the youtube source video")
-
+    parser.add_argument('-h', '--help', action='help', help='Shows this help message.')
     args = parser.parse_args()
 
     Downloader = Download(config["CLIENT_ID"],config["CLIENT_SECRET"],config["REDIRECT_URI"])

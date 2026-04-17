@@ -23,19 +23,21 @@ def load_config():
         return json.load(f)
 
 def main():
+    # Loads configuration file or creates it.
+    config = load_config()
+
+    # If the user is missing client creds, error is sent.
+    if (config["CLIENT_ID"] is None or config["CLIENT_SECRET"] is None or config["REDIRECT_URI"] is None or config["CLIENT_ID"] == ""):
+        Download.print(None,"ERROR","You must specify your CLIENT_ID, CLIENT_SECRET, and REDIRECT_URI in the config. (~/.config/stella/config.json)")
+        exit()
+
     parser = argparse.ArgumentParser(prog="Stella",description="A Spotify Downloader")
     parser.add_argument('spotify_url')           # positional argument
     parser.add_argument("-m", "--manual", type=str, help="Manually input the youtube source video")
 
     args = parser.parse_args()
 
-    config = load_config();
-
-    if (config["CLIENT_ID"] is None or config["CLIENT_SECRET"] is None or config["REDIRECT_URI"] is None or config["CLIENT_ID"] == ""):
-        Download.print(None,"ERROR","You must specify your CLIENT_ID, CLIENT_SECRET, and REDIRECT_URI in the config. (~/.config/stella/config.json)")
-        exit()
-    else:
-        Downloader = Download(config["CLIENT_ID"],config["CLIENT_SECRET"],config["REDIRECT_URI"])
+    Downloader = Download(config["CLIENT_ID"],config["CLIENT_SECRET"],config["REDIRECT_URI"])
 
     if ("track/" in args.spotify_url):
         if args.manual:

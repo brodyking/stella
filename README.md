@@ -30,7 +30,7 @@ seems to have fallen out of development.
 > You will also need a Spotify Premium account to use this app. This is due to
 > Spotify's new API restrictions.
 
-The python dependencies for stella are usually already installed by other
+The python dependencies for Stella are usually already installed by other
 packages, but they are listed here aswell:
 
 - requests
@@ -64,7 +64,7 @@ pip install .
 
 ### Step 3: Spotify Auth
 
-Spotify requires you to have a developer account/app for stella to utilize
+Spotify requires you to have a developer account/app for Stella to utilize
 Spotify's API. Goto the
 [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) and
 register a new app.
@@ -83,11 +83,9 @@ created, you can create it manually. It should look like this by default:
 
 Fill it in with your API keys here. On the first run after, it will ask you to
 paste a URL into your browser. Paste it, then copy the URL you were redirected
-to in the terminal. Then stella should work without issue.
+to in the terminal. After this step, Stella is ready for use.
 
 ## Usage
-
-On the first use of the app, it will open a browser window for authentication.
 
 Open the directory where you want to download the mp3's to, and run the script
 with the spotify URL.
@@ -103,5 +101,5 @@ Spotify metadata with the Youtube audio. **This only works when downloading a
 track.**
 
 ```
-stella https://open.spotify.com/track/5DnT9a5IM3eMjKgXTWVJvi?si=5bb3015e563d4434 -m https://www.youtube.com/watch?v=iyf0ZIh3SVo
+stella https://open.spotify.com/track/5DnT9a5IM3eMjKgXTWVJv -m https://www.youtube.com/watch?v=iyf0ZIh3SVo
 ```

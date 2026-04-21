@@ -152,14 +152,10 @@ class Download:
 
         self.print("OK",f"Gathering metadata for {spotify_url}")
 
-        playlist = self.api.get_playlist_items(spotify_url)
-
-        tracks = []
-        for track in playlist["items"]:
-            tracks.append(track["item"])
+        tracks = self.api.get_playlist_tracks(spotify_url)
 
         for track in tracks:
-            self.download_track(track["id"])
+            self.download_track(track["item"]["id"])
 
     def download_album(self,spotify_url):
 

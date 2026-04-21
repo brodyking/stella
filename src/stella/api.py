@@ -43,6 +43,18 @@ class Api:
         url = self.parse(url)
         return self.sp.playlist_items(url)
 
+    def get_playlist_tracks(self,url):
+        url = self.parse(url)
+
+        results = self.sp.playlist_items(url)
+        tracks = results['items']
+        
+        while results['next']:
+            results = self.sp.next(results)
+            tracks.extend(results['items'])
+            
+        return tracks
+
     def get_track(self, url):
         url = self.parse(url)
         return self.sp.track(url)   
